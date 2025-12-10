@@ -1,8 +1,9 @@
 services:
   suwayomi-server:
-    build:
-      context: ./Suwayomi-Server
-      dockerfile: Dockerfile
+    # build:
+    #   context: ./Suwayomi-Server
+    #   dockerfile: Dockerfile
+    image: ghcr.io/penguarjol/tachiyomi-saas/server:latest
     ports:
       - "4567:4567"
     environment:
@@ -24,9 +25,10 @@ services:
       retries: 3
 
   suwayomi-gatekeeper:
-    build:
-      context: ./Suwayomi-Gatekeeper
-      dockerfile: Dockerfile
+    # build:
+    #   context: ./Suwayomi-Gatekeeper
+    #   dockerfile: Dockerfile
+    image: ghcr.io/penguarjol/tachiyomi-saas/gatekeeper:latest
     ports:
       - "8080:8080"
     environment:
@@ -38,9 +40,10 @@ services:
       - suwayomi-server
 
   suwayomi-webui:
-    build:
-      context: ./Suwayomi-WebUI
-      dockerfile: Dockerfile
+    # build:
+    #   context: ./Suwayomi-WebUI
+    #   dockerfile: Dockerfile
+    image: ghcr.io/penguarjol/tachiyomi-saas/webui:latest
     ports:
       - "3000:3000"
     environment:
