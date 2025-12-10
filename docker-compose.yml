@@ -1,0 +1,57 @@
+services:
+  suwayomi-server:
+    build:
+      context: ./Suwayomi-Server
+      dockerfile: Dockerfile
+    ports:
+      - "4567:4567"
+    environment:
+      - JAVA_OPTS=-Xmx2048m -Djava.awt.headless=true
+      - TS_CONFIG_server_extensionRepos=["https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json"]
+      - TS_CONFIG_server_systemTrayEnabled=false
+      - TS_CONFIG_server_initialOpenInBrowserEnabled=false
+      - TS_CONFIG_server_authMode=BASIC_AUTH
+      - TS_CONFIG_server_authUsername=suwayomi
+      - TS_CONFIG_server_authPassword=suwayomi
+      - TEST_ENV=true
+      - SUWAYOMI_DISABLE_UPDATE_CHECK=true
+    volumes:
+      - suwayomi-data:/data
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4567/api/v1/settings" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  suwayomi-gatekeeper:
+    build:
+      context: ./Suwayomi-Gatekeeper
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SUWAYOMI_URL=http://suwayomi-server:4567
+    volumes:
+      - ./Suwayomi-Gatekeeper:/app
+      - /app/node_modules
+    depends_on:
+      - suwayomi-server
+
+  suwayomi-webui:
+    build:
+      context: ./Suwayomi-WebUI
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - SUWAYOMI_SERVER_URL=http://suwayomi-gatekeeper:8080
+      - PORT=3000
+      - ALLOWED_HOSTS=localhost,suwayomi-webui,127.0.0.1
+    volumes:
+      - ./Suwayomi-WebUI:/app
+      - /app/node_modules
+    depends_on:
+      - suwayomi-server
+
+volumes:
+  suwayomi-data:

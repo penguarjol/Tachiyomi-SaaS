@@ -1,0 +1,6 @@
+[submodule "Suwayomi-WebUI"]
+	path = Suwayomi-WebUI
+	url = https://github.com/penguarjol/Suwayomi-WebUI.git
+[submodule "Suwayomi-Server"]
+	path = Suwayomi-Server
+	url = https://github.com/penguarjol/Suwayomi-Server.git
