@@ -6,7 +6,8 @@
 set -e
 
 echo ">>> Updating System..."
-apt-get update && apt-get upgrade -y
+export DEBIAN_FRONTEND=noninteractive
+apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 
 echo ">>> Installing Docker & Docker Compose..."
 curl -fsSL https://get.docker.com -o get-docker.sh
