@@ -14,11 +14,24 @@ sh get-docker.sh
 apt-get install -y docker-compose-plugin
 
 echo ">>> Cloning Repository..."
-# Using HTTPs commit approach or public repo (since we made it public?)
-# If private, user needs a PAT. Assuming Public for now based on 'gh setup' flow.
-git clone --recursive https://github.com/penguarjol/Tachiyomi-SaaS.git /opt/tachiyomi
+# Check if we are already inside the repo (e.g. manually cloned)
+if [ -f "docker-compose.yml" ]; then
+    echo ">>> Already inside repository. Using current directory."
+    PROJECT_DIR=$(pwd)
+else
+    # Default location
+    PROJECT_DIR="/opt/tachiyomi"
+    if [ -d "$PROJECT_DIR" ]; then
+        echo ">>> Updating existing repository at $PROJECT_DIR..."
+        cd "$PROJECT_DIR"
+        git pull
+    else
+        echo ">>> Cloning to $PROJECT_DIR..."
+        git clone --recursive https://github.com/penguarjol/Tachiyomi-SaaS.git "$PROJECT_DIR"
+    fi
+fi
 
-cd /opt/tachiyomi
+cd "$PROJECT_DIR"
 
 echo ">>> Setting up Environment..."
 if [ ! -f .env ]; then
