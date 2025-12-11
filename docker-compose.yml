@@ -4,8 +4,8 @@ services:
     #   context: ./Suwayomi-Server
     #   dockerfile: Dockerfile
     image: ghcr.io/penguarjol/tachiyomi-saas/server:latest
-    ports:
-      - "4567:4567"
+    expose:
+      - "4567"
     environment:
       - JAVA_OPTS=-Xmx2048m -Djava.awt.headless=true -Dsuwayomi.tachidesk.config.server.rootDir=/data -Dserver.initialOpenInBrowserEnabled=false -Dserver.systemTrayEnabled=false
       - TS_CONFIG_server_systemTrayEnabled=false
