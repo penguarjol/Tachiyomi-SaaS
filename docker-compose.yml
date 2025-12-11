@@ -10,9 +10,9 @@ services:
       - JAVA_OPTS=-Xmx2048m -Djava.awt.headless=true -Dsuwayomi.tachidesk.config.server.rootDir=/data -Dserver.initialOpenInBrowserEnabled=false -Dserver.systemTrayEnabled=false
       - TS_CONFIG_server_systemTrayEnabled=false
       - TS_CONFIG_server_initialOpenInBrowserEnabled=false
-      - TS_CONFIG_server_authMode='BASIC_AUTH'
-      - TS_CONFIG_server_authUsername='suwayomi'
-      - TS_CONFIG_server_authPassword='suwayomi'
+      - TS_CONFIG_server_authMode=BASIC_AUTH
+      - TS_CONFIG_server_authUsername=suwayomi
+      - TS_CONFIG_server_authPassword=suwayomi
       - TEST_ENV=true
       - SUWAYOMI_DISABLE_UPDATE_CHECK=true
     volumes:
