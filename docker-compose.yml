@@ -7,7 +7,8 @@ services:
     ports:
       - "4567:4567"
     environment:
-      - JAVA_OPTS=-Xmx2048m -Djava.awt.headless=true -Dserver.extensionRepos.0=https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json
+      - JAVA_OPTS=-Xmx2048m -Djava.awt.headless=true
+      - TS_CONFIG_server_extensionRepos='["https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json"]'
       - TS_CONFIG_server_systemTrayEnabled=false
       - TS_CONFIG_server_initialOpenInBrowserEnabled=false
       - TS_CONFIG_server_authMode=BASIC_AUTH
