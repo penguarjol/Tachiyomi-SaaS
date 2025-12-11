@@ -7,7 +7,7 @@ services:
     ports:
       - "4567:4567"
     environment:
-      - JAVA_OPTS=-Xmx2048m -Djava.awt.headless=true
+      - JAVA_OPTS=-Xmx2048m -Djava.awt.headless=true -Dsuwayomi.tachidesk.config.server.rootDir=/data
       - TS_CONFIG_server_systemTrayEnabled=false
       - TS_CONFIG_server_initialOpenInBrowserEnabled=false
       - TS_CONFIG_server_authMode=BASIC_AUTH
