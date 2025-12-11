@@ -32,6 +32,8 @@ services:
       - "8080:8080"
     environment:
       - SUWAYOMI_URL=http://suwayomi-server:4567
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
     volumes:
       - ./Suwayomi-Gatekeeper:/app
       - /app/node_modules
