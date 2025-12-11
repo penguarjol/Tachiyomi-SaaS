@@ -133,16 +133,21 @@ const WEBUI_URL = process.env.WEBUI_URL || 'http://suwayomi-webui:3000';
 const SERVER_AUTH = 'Basic ' + Buffer.from('suwayomi:suwayomi').toString('base64');
 
 // 1. Forward API requests to Suwayomi Server (Backend)
-app.use('/api', createProxyMiddleware({
+app.use('/api', (req, res, next) => {
+    console.log(`[Proxy] API Request: ${req.method} ${req.url}`);
+    next();
+}, createProxyMiddleware({
     target: TARGET_URL,
     changeOrigin: true,
     logLevel: 'debug',
-    pathRewrite: {
-        '^/api': '/api' // explicit keep
-    },
+    // pathRewrite: { '^/api': '/api' }, // Redundant
     onProxyReq: (proxyReq, req, res) => {
         // Inject Basic Auth for Suwayomi Server
         proxyReq.setHeader('Authorization', SERVER_AUTH);
+        console.log(`[Proxy] Forwarding to: ${TARGET_URL}${req.originalUrl}`);
+    },
+    onError: (err, req, res) => {
+        console.error('[Proxy] Error:', err);
     }
 }));
 
