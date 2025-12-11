@@ -135,15 +135,15 @@ const SERVER_AUTH = 'Basic ' + Buffer.from('suwayomi:suwayomi').toString('base64
 // 1. Forward API requests to Suwayomi Server (Backend)
 app.use('/api', (req, res, next) => {
     console.log(`[Proxy] API Request: ${req.method} ${req.url}`);
+    // Force Header Injection here (more reliable than onProxyReq)
+    req.headers['authorization'] = SERVER_AUTH;
     next();
 }, createProxyMiddleware({
     target: TARGET_URL,
     changeOrigin: true,
     logLevel: 'debug',
-    // pathRewrite: { '^/api': '/api' }, // Redundant
     onProxyReq: (proxyReq, req, res) => {
-        // Inject Basic Auth for Suwayomi Server
-        proxyReq.setHeader('Authorization', SERVER_AUTH);
+        // Redundant safely check or logging
         console.log(`[Proxy] Forwarding to: ${TARGET_URL}${req.originalUrl}`);
     },
     onError: (err, req, res) => {
