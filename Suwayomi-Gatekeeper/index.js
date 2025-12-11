@@ -139,7 +139,8 @@ app.use('/api', (req, res, next) => {
     req.headers['authorization'] = SERVER_AUTH;
     next();
 }, createProxyMiddleware({
-    target: TARGET_URL,
+    // app.use('/api') strips '/api', so we must add it back to the target
+    target: TARGET_URL + '/api',
     changeOrigin: true,
     logLevel: 'debug',
     onProxyReq: (proxyReq, req, res) => {
